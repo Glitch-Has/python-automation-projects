@@ -1,19 +1,19 @@
 import pandas as pd
 
-# Load Excel file
 input_file = "input.xlsx"
 output_file = "cleaned_output.xlsx"
 
-# Read data
-df = pd.read_excel(input_file)
+try:
+    df = pd.read_excel(input_file)
 
-# Drop completely empty rows
-df.dropna(how="all", inplace=True)
+    df.dropna(how="all", inplace=True)
+    df.columns = df.columns.str.strip().str.lower().str.replace(" ", "_")
 
-# Standardize column names
-df.columns = df.columns.str.strip().str.lower().str.replace(" ", "_")
+    df.to_excel(output_file, index=False)
+    print("Excel file cleaned and saved successfully!")
 
-# Save cleaned file
-df.to_excel(output_file, index=False)
+except FileNotFoundError:
+    print("Error: input.xlsx file not found.")
+except Exception as e:
+    print(f"Unexpected error: {e}")
 
-print("Excel file cleaned and saved successfully!")
